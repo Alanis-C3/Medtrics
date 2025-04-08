@@ -1,3 +1,5 @@
+//right click clion screen to reload cmake project so directorys are correct
+
 #include<iostream>
 #include<iostream>
 #include<fstream>
@@ -10,6 +12,8 @@ using namespace std;
 
 
 void dataimport() {
+  //index 8 of vector is best rating number as a string
+  // index 20 is timeliness of hsopital in vector as a string
   ifstream hospital("../Hospital_General_Information.csv");
   map<string, vector<string>> hospital_data;
 
