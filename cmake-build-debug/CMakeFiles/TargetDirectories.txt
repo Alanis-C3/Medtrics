@@ -1,2 +1,0 @@
-C:/Users/anae2/CLionProjects/Medtrics/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/anae2/CLionProjects/Medtrics/cmake-build-debug/CMakeFiles/rebuild_cache.dir
