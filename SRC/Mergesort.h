@@ -1,5 +1,5 @@
 // merge sort location for all functions
-
+#pragma once
 
 class mergesort{
 
@@ -8,7 +8,4 @@ class mergesort{
   void bestTime();
   }
 
-#ifndef MERGESORT_H
-#define MERGESORT_H
 
-#endif //MERGESORT_H
