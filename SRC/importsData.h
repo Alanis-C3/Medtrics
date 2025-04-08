@@ -12,11 +12,14 @@ using namespace std;
 
 ifstream hosptial("../Hospital_General_Information.csv");
 
-if (hospital.open() == true){
-  cout<< "opened"<<endl;
-  }
+if (hospital ==
 
-#ifndef IMPORTSDATA_H
-#define IMPORTSDATA_H
 
-#endif //IMPORTSDATA_H
+//if(hospital.open() == true){
+//  cout<< "opened"<<endl;
+//  }
+
+//#ifndef IMPORTSDATA_H
+//#define IMPORTSDATA_H
+//
+//#endif //IMPORTSDATA_H
