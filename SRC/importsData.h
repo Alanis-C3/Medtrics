@@ -16,7 +16,7 @@ if (hospital.open() == true){
   cout<< "opened"<<endl;
   }
 
-#ifndef IMPORTSDATA_H
-#define IMPORTSDATA_H
-
-#endif //IMPORTSDATA_H
+//#ifndef IMPORTSDATA_H
+//#define IMPORTSDATA_H
+//
+//#endif //IMPORTSDATA_H
