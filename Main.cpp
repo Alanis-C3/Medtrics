@@ -9,17 +9,18 @@
 #include<map>
 #include <queue>
 #include "SRC/Heapsort.h"
+#include "SRC/Mergesort.h"
 
 
 
 using namespace std;
 
 
-map<string, vector<string>> dataimport() {
+multimap<string, vector<string>> dataimport() {
   //index 8 of vector is best rating number as a string
   // index 20 is timeliness of hsopital in vector as a string
   ifstream hospital("../Hospital_General_Information.csv");
-  map<string, vector<string>> hospital_data;
+  multimap<string, vector<string>> hospital_data; // multimap to account for hospitals with same name but different cities etc, like chain hopsitals
 
   if (!hospital.is_open()) {
     cerr << "Failed to open file." << endl;
@@ -60,7 +61,7 @@ map<string, vector<string>> dataimport() {
         values.push_back(all_columns[i]);
       }
     } //push back all atributes into vector associated with hospital key
-    hospital_data[key] = values;
+    hospital_data.insert({key, values});
   }
   //data.head() to see top to make sure inserting correctly
   // int count = 0;
@@ -78,19 +79,9 @@ map<string, vector<string>> dataimport() {
 }
 
 int main(){
-  map<string, vector<string>> data = dataimport();
-  //testing
-  Heapsort heap;
-  try {
-    heap.createcities(data,  "ATHENS");
-    heap.heapsortcities();
-  }
-  catch(const std::exception& e){
-  cout << "Heapsort failed" <<e.what() << endl;
-  }
-  catch (...) {  // Catch any other types of exceptions
-    cout << "Heapsort failed due to an unknown error." << endl;
-  }
+  multimap<string, vector<string>> data = dataimport();
+ // need to set up main
+  // heap and merge for cities done
 
 
   return 0;
