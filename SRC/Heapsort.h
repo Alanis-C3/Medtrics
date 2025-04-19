@@ -12,7 +12,8 @@ using namespace std;
 
 class Heap {
   public:
-    void stateSort(vector<pair<string, vector<string>>> &hos) {
+  // function takes in state variable from main
+    void stateSort(vector<pair<string, vector<string>>> &hos, const string& state) {
       auto temp = [](const pair<string, vector<string>> &a, const pair<string, vector<string>> &b) {
         // state is 4th index of hospita csv
         return a.second[4] > b.second[4];
@@ -20,7 +21,9 @@ class Heap {
       // using priority queue for heapsort
       priority_queue<pair<string, vector<string>>, vector<pair<string, vector<string>>>, decltype(temp)> minHeap(temp);
       for (const auto &x : hos) {
-        minHeap.push(x);
+        if (x.second[4] == state) {
+          minHeap.push(x);
+        }
       }
       hos.clear();
       // state and hospital name information
@@ -29,7 +32,8 @@ class Heap {
         minHeap.pop();
       }
     }
-    void ratingSort(vector<pair<string, vector<string>>> &hos) {
+  // function takes rating variable from main
+    void ratingSort(vector<pair<string, vector<string>>> &hos, const string& rating) {
       auto temp = [](const pair<string, vector<string>> &a, const pair<string, vector<string>> &b) {
         int rowa = a.second[10].empty() ? 0 : stoi(a.second[10]);
         int rowb = b.second[10].empty() ? 0 : stoi(b.second[10]);
@@ -39,8 +43,9 @@ class Heap {
       // using priority queue for heapsort
       priority_queue<pair<string, vector<string>>, vector<pair<string, vector<string>>>, decltype(temp)> maxHeap(temp);
       for (const auto &x : hos) {
-        maxHeap.push(x);
-      }
+        if (!x.second[10].empty() && x.second[10] == rating) {
+          maxHeap.push(x);
+        }
       hos.clear();
       // rating and hospital name information
       while (!maxHeap.empty()) {
