@@ -3,6 +3,8 @@
 #include<iostream>
 #include<vector>
 #include<map>
+#include<unordered_map>
+#include<string>
 using namespace std;
 
 //class mergesort{
@@ -25,4 +27,21 @@ class Merge {
     // merge sort for overall rating
     void ratingSort(vector<pair<string, vector<string>>> & hos);
 
+};
+
+class Mergesort {
+  //map<string, string> cities;
+  vector<pair<string, string>> cityData;  // hospital name -> timeliness string (for sorting)
+  void mergesortcities(vector<pair<string, string>>& arr, int left, int right);
+  void mergecity(vector<pair<string, string>>& arr, int left, int mid, int right);
+public:
+  // Custom comparator for the timeliness (Timeliness of care national comparison)
+  unordered_map<string, int> priority = {
+    {"Above the National average", 0},
+    {"Same as the National average", 1},
+    {"Below the National average", 2},
+    {"Not Available", 3}
+  };
+  void createcitiesmerge(multimap<string, vector<string>> rawdata, string city);
+  void mergesort_cities(); // calls private merge sort, so that main does not have parameters to take in
 };
