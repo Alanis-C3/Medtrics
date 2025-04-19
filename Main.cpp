@@ -10,6 +10,7 @@
 #include <queue>
 #include <algorithm>
 #include <cctype>
+#include <limits>
 #include "SRC/Heapsort.h"
 #include "SRC/Mergesort.h"
 
@@ -91,12 +92,14 @@ bool startover() {
   cout << "Would you like to start over? Y/N (please capatalize)" << endl;
   string answer;
   cin >> answer;
+  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // gets rid of new line after cin
   if (answer == "Y") {
     return true;
     }
   else if (answer == "N") {
     return false;
   }
+  return false;
 }
 
 
@@ -136,14 +139,53 @@ int main(){
       if (sorting == "heap") {
         Heapsort heap; // calling class heapsort to make object
         heap.heapsortcities(data, city);
+        cout << "would you like to compare runtime with merge sort? yes/no" << endl;
+        string compare;
+        cin >> compare;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // gets rid of new line after cin
+        if (compare == "yes") {
+          Mergesort merge;
+          merge.createcitiesmerge(data, city);
+          merge.mergesort_cities();
+
+          cout << "heap sort took " << heap.gettime() << " seconds and merge sort took " << merge.gettime() << endl;
+          if (heap.gettime() < merge.gettime()) {
+            cout << "heap had faster run time performance" << endl;
+          }
+          else {
+            cout << "merge had faster run time performance" << endl;
+          }
+        }
+        else {
+          continue;
+        }
       }
       else if (sorting == "merge") {
         Mergesort merge;
         merge.createcitiesmerge(data, city);
         merge.mergesort_cities();
+        cout << "would you like to compare runtime with heap sort? yes/no" << endl;
+        string compare;
+        cin >> compare;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // gets rid of new line after cin
+        if (compare == "yes") {
+          Heapsort heap; // calling class heapsort to make object
+          heap.heapsortcities(data, city);
+
+          cout << "heap sort took " << heap.gettime() << " seconds and merge sort took " << merge.gettime() << endl;
+          if (heap.gettime() < merge.gettime()) {
+            cout << "heap had faster run time performance" << endl;
+          }
+          else {
+            cout << "merge had faster run time performance" << endl;
+          }
+        }
+        else {
+          continue;
+        }
         }
       }
-   cont = startover();
+    cont = startover();
 
   }
 

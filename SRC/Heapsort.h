@@ -46,31 +46,31 @@ class Heap {
         if (!x.second[10].empty() && x.second[10] == rating) {
           maxHeap.push(x);
         }
-      hos.clear();
-      // rating and hospital name information
-      while (!maxHeap.empty()) {
-        hos.push_back(maxHeap.top());
-        maxHeap.pop();
+        hos.clear();
+        // rating and hospital name information
+        while (!maxHeap.empty()) {
+          hos.push_back(maxHeap.top());
+          maxHeap.pop();
+        }
       }
     }
 };
 class Heapsort {
-    map<string, string> cities;
-    // Custom comparator for the timeliness (Timeliness of care national comparison)
+  float time;
 public:
-    struct CustomCompare {
-        unordered_map<string, int> priority = {
-            {"Above the National average", 0},
-            {"Same as the National average", 1},
-            {"Below the National average", 2},
-            {"Not Available", 3}
-        };
-
-        bool operator()(const std::pair<std::string, std::string>& a, const std::pair<std::string, std::string>& b) const {
-            // Compare based on the second string (the timeliness value)
-            return priority.at(a.second) > priority.at(b.second);  // Use ">" for max-heap behavior
-        }
+  struct CustomCompare {
+    unordered_map<string, int> priority = {
+      {"Above the National average", 0},
+      {"Same as the National average", 1},
+      {"Below the National average", 2},
+      {"Not Available", 3}
     };
+    bool operator()(const std::pair<std::string, std::string>& a, const std::pair<std::string, std::string>& b) const {
+      // Compare based on the second string (the timeliness value)
+      return priority.at(a.second) > priority.at(b.second);  // Use ">" for max-heap behavior
+    }
+  };
 
-    void heapsortcities(multimap<string, vector<string>> rawdata, string city);
+  void heapsortcities(multimap<string, vector<string>> rawdata, string city);
+  float gettime();
 };
