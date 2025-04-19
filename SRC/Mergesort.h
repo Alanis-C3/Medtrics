@@ -30,6 +30,7 @@ class Merge {
 };
 
 class Mergesort {
+  float time;
   //map<string, string> cities;
   vector<pair<string, string>> cityData;  // hospital name -> timeliness string (for sorting)
   void mergesortcities(vector<pair<string, string>>& arr, int left, int right);
@@ -44,4 +45,5 @@ public:
   };
   void createcitiesmerge(multimap<string, vector<string>> rawdata, string city);
   void mergesort_cities(); // calls private merge sort, so that main does not have parameters to take in
+  float gettime();
 };
