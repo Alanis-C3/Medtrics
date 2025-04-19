@@ -72,6 +72,5 @@ public:
         }
     };
 
-    void createcities(multimap<string, vector<string>> rawdata, string city);
-    void heapsortcities();
+    void heapsortcities(multimap<string, vector<string>> rawdata, string city);
 };

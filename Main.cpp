@@ -8,6 +8,8 @@
 #include<vector>
 #include<map>
 #include <queue>
+#include <algorithm>
+#include <cctype>
 #include "SRC/Heapsort.h"
 #include "SRC/Mergesort.h"
 
@@ -77,12 +79,73 @@ multimap<string, vector<string>> dataimport() {
   // }
   return hospital_data;
 }
+string menu() {
+  cout<< "Enter number of option you wish to continue with" << endl;
+  cout << "1. Hospital ratings by states" << endl;
+  cout << "2. Hospital timeliness by cities" << endl;
+  string area;
+  getline(cin, area);
+  return area;
+}
+bool startover() {
+  cout << "Would you like to start over? Y/N (please capatalize)" << endl;
+  string answer;
+  cin >> answer;
+  if (answer == "Y") {
+    return true;
+    }
+  else if (answer == "N") {
+    return false;
+  }
+}
+
 
 int main(){
   multimap<string, vector<string>> data = dataimport();
- // need to set up main
-  // heap and merge for cities done
+  cout << "Welcome to Medtrics" << endl;
+  cout<< "Find the best hospital for you in your area, compare dozens by their ratings." << endl;
+  cout<< "Search by State or City" << endl;
+  bool cont = true;
+  while (cont) {
+    string area = menu();
+    if (area == "1") {
+      cout << "Enter state intials (ex FL) for the state you wish to check:" << endl;
+      string state;
+      cin >> state;
+      cout << "Would you like to compare ratings with merge sort or heap sort?" << endl;
+      cout << "Enter merge or heap to continue"<< endl;
+      string sorting;
+      cin >> sorting;
+      if (sorting == "heap") {
+       cout << "--";
+      }
+      else if (sorting == "merge") {
+        cout << "--";
+      }
+    }
+    else if (area == "2"){
+      cout << "Enter the city you wish to check:" << endl;
+      string city;
+      getline(cin, city); // use getline to account for spaces in city
+      transform(city.begin(), city.end(), city.begin(),
+                   [](unsigned char c){ return toupper(c); });
+      cout << "Would you like to compare ratings with merge sort or heap sort?" << endl;
+      cout << "Enter merge or heap to continue"<< endl;
+      string sorting;
+      cin >> sorting;
+      if (sorting == "heap") {
+        Heapsort heap; // calling class heapsort to make object
+        heap.heapsortcities(data, city);
+      }
+      else if (sorting == "merge") {
+        Mergesort merge;
+        merge.createcitiesmerge(data, city);
+        merge.mergesort_cities();
+        }
+      }
+   cont = startover();
 
+  }
 
   return 0;
 };
