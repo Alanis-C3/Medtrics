@@ -7,30 +7,19 @@
 #include<queue>
 using namespace std;
 
-void Heapsort::createcities(multimap<string, vector<string> > rawdata, string city) {
+void Heapsort::heapsortcities(multimap<string, vector<string> > rawdata, string city) {
+    priority_queue<pair<string, string>, vector<pair<string, string>>, CustomCompare> heap; //creates empty heap
     for (const auto& key : rawdata) {
         if (key.second[1] == city) {
-            cities[key.first] = key.second[20]; // putting hospital into new map with just timeliness for sorting
+            heap.push(make_pair(key.first, key.second[20])); // adds into heap so heap can sort after each insertation
         }
     }
-}
-
-void Heapsort::heapsortcities() {
-    priority_queue<pair<string, string>, vector<pair<string, string>>, CustomCompare> heap; //creates empty heap
-
-    //sorts based off struct of custom comparator
-    for (const auto& key : cities) {
-        heap.push(key);
-    }
     // Print sorted hospitals by timeliness
-
     while (!heap.empty()) {
         cout << heap.top().first << " - " << heap.top().second << endl;
         heap.pop();
-
     }
-
-
 }
+
 
 
