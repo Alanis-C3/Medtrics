@@ -1,6 +1,7 @@
 // cpp file for all functions using merge sort
 // using logic from discussion slide 12 of module 8 sorting
 #include <iostream>
+#include <chrono> // for time
 #include "Mergesort.h"
 using namespace std;
 // merge state functions:
@@ -132,11 +133,22 @@ void Mergesort::mergecity(vector<pair<string, string>>& arr, int left, int mid, 
   }
 
 void Mergesort::mergesort_cities(){
+  auto start = chrono::high_resolution_clock::now();
     if (!cityData.empty()) {
       mergesortcities(cityData, 0, cityData.size() - 1);
     }
+  auto end = chrono::high_resolution_clock::now();
+  chrono::duration<float> duration = end - start; // finds time it took to sort hospitals
+
   for (const auto& [hospital, timeliness] : cityData) { //print hospitals in order after mergesort
     cout << hospital << " - " << timeliness << endl;
   }
+  time = duration.count();
+  cout << "Run time: " << time << " seconds" << endl;
 }
+
+float Mergesort::gettime() {
+  return time;
+}
+
 
