@@ -78,44 +78,6 @@ void Merge::mergesortChrono() {
   }
   cout << "Run time: " << elapsedTime << " seconds" << endl;
 }
-// merge rating functions:
-// recursive helper function, merge sorting rating in descending order
-void Merge::mergeRate(vector<pair<string, vector<string>>> &hos, int start, int mid, int end) {
-  vector<pair<string, vector<string>>> temp;
-  int i = start, j = mid + 1;
-  while (i <= mid && j <= end) {
-    int rowi = hos[i].second[10].empty() ? 0 : stoi(hos[i].second[10]);
-    int rowj = hos[j].second[10].empty() ? 0 : stoi(hos[j].second[10]);
-    if (rowi > rowj) {
-      temp.push_back(hos[i++]);
-    }else{
-      temp.push_back(hos[j++]);
-    }
-  }
-  while (i <= mid && j <= end) {
-    temp.push_back(hos[i++]);
-    temp.push_back(hos[j++]);
-  }
-  for (int k = i; k <= end; k++) {
-    hos[k] = temp[k-1];
-  }
-}
-// recursive helper for ratingSort
-void Merge::mergesortRate(vector<pair<string, vector<string>>> &hos, int start, int end) {
-  if (start < end) {
-    int mid = (start + end) / 2;
-    mergesortRate(hos, start, mid);
-    mergesortRate(hos, mid + 1, end);
-    mergeRate(hos, start, mid, end);
-  }
-}
-// public ratingSort function
-void Merge::ratingSort(vector<pair<string, vector<string>>> &hos) {
-  if (!hos.empty()) {
-    mergesortRate(hos, 0, hos.size() - 1);
-  }
-}
-
 void Mergesort::createcitiesmerge(multimap<string, vector<string>> rawdata, string city) {
   for (const auto& key : rawdata) {
     if (key.second[1] == city) {
