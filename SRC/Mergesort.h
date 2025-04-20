@@ -16,14 +16,16 @@ using namespace std;
 class Merge {
   private:
     // recursive helper functions for mergesort (State)
-    void mergesortState(vector<pair<string, vector<string>>> & hos, int start, int end);
-    void mergeState(vector<pair<string, vector<string>>> & hos, int start, int mid, int end);
+    float elapsedTime = 0.0f;
+    void mergesortstates(vector<pair<string, string>>& arr, int left, int right);
+    void mergestate(vector<pair<string, string>>& arr, int left, int mid, int right);
     // recursive helper functions for mergesort (overall rating)
     void mergesortRate(vector<pair<string, vector<string>>> & hos, int start, int end);
     void mergeRate(vector<pair<string, vector<string>>> & hos, int start, int mid, int end);
   public:
     // merge sort for state
-    void stateSort(vector<pair<string, vector<string>>> & hos);
+    void stateSort(multimap<string, vector<string>> rawdata, const string& state);
+    void mergesortChrono();
     // merge sort for overall rating
     void ratingSort(vector<pair<string, vector<string>>> & hos);
 
