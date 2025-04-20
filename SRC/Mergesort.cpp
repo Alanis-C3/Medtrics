@@ -5,41 +5,64 @@
 #include "Mergesort.h"
 using namespace std;
 // merge state functions:
-// recursive helper function, merge sorting state in alphabetical order
-void Merge::mergeState(vector<pair<string, vector<string>>> &hos, int start, int mid, int end) {
-  vector<pair<string, vector<string>>> temp;
-  int i = start, j = end + 1;
-  while (i <= start && j <= end) {
-    // 4 since state is the 4th index in the csv
-    if (hos[i].second[4] < hos[j].second[4]) {
-      temp.push_back(hos[i++]);
-    }else{
-      temp.push_back(hos[j++]);
+// public function to sort States by merge sort
+vector<pair<string, string>> sData;
+void Merge::stateSort(multimap<string, vector<string>> rawdata, const string& state) {
+  for (const auto& entry : rawdata) {
+    if (entry.second[4] == state) {
+      // key: hospital name & value: state
+      sData.push_back({entry.first, entry.second[4]});
     }
   }
-  while (i <= start && j <= end) {
-    temp.push_back(hos[i++]);
-    temp.push_back(hos[j++]);
+}
+// helper function 1
+void Merge::mergestate(vector<pair<string, string>>& arr, int left, int mid, int right) {
+  int leftS = mid - left + 1;
+  int rightS = right - mid;
+  vector<pair<string, string>> leftArr(leftS), rightArr(rightS);
+  for (int i = 0; i < leftS; i++) {
+    leftArr[i] = arr[left + i];
   }
-  // copying merged information back to temp vector
-  for (int k = i; k <= end; k++) {
-    hos[k] = temp[k-1];
+  for (int i = 0; i < rightS; i++) {
+    rightArr[i] = arr[mid + 1 + i];
+  }
+  int leftPtr = 0, rightPtr = 0, mergedPtr = left;
+  while (leftPtr < leftS && rightPtr < rightS) {
+    if (leftArr[leftPtr].second <= rightArr[rightPtr].second) {
+      arr[mergedPtr++] = leftArr[leftPtr++];
+    } else {
+      arr[mergedPtr++] = rightArr[rightPtr++];
+    }
+  }
+  while (leftPtr < leftS) {
+    arr[mergedPtr++] = leftArr[leftPtr++];
+  }
+  while (rightPtr < rightS) {
+    arr[mergedPtr++] = rightArr[rightPtr++];
   }
 }
-// recursive helper for mergeState function
-void Merge::mergesortState(vector<pair<string, vector<string>>> &hos, int start, int end) {
-  if (start < end) {
-    int mid = (start + end) / 2;
-    mergesortState(hos, start, mid);
-    mergesortState(hos, mid + 1, end);
-    mergeState(hos, start, mid, end);
+// helper function 2
+void Merge::mergesortstates(vector<pair<string, string>>& arr, int left, int right) {
+  if (left < right) {
+    int mid = left + (right - left) / 2;
+    mergesortstates(arr, left, mid);
+    mergesortstates(arr, mid + 1, right);
+    mergestate(arr, left, mid, right);
   }
 }
-// public merge function
-void Merge::stateSort(vector<pair<string, vector<string>>> &hos) {
-  if (!hos.empty()) {
-    mergesortState(hos, 0, hos.size() - 1);
+// public function (+ chrono information)
+void Merge::mergesortChrono() {
+  auto start = chrono::high_resolution_clock::now();
+  if (!sData.empty()) {
+    mergesortstates(sData, 0, sData.size() - 1);
   }
+  auto end = chrono::high_resolution_clock::now();
+  chrono::duration<float> duration = end - start;
+  elapsedTime = duration.count();
+  for (const auto& [hospital, state] : sData) {
+    cout << hospital << " - " << state << endl;
+  }
+  cout << "Run time: " << elapsedTime << " seconds" << endl;
 }
 // merge rating functions:
 // recursive helper function, merge sorting rating in descending order

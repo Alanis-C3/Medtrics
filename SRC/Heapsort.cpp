@@ -23,12 +23,12 @@ void Heapsort::heapsortcities(multimap<string, vector<string> > rawdata, string 
         cout << heap.top().first << " - " << heap.top().second << endl;
         heap.pop();
     }
-    time = duration.count();
-    cout << "Run time: " << time << " seconds" << endl;
+    elapsedTime = duration.count();
+    cout << "Run time: " << elapsedTime << " seconds" << endl;
 }
 
 float Heapsort::gettime() {
-    return time;
+    return elapsedTime;
 }
 
 
