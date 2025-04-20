@@ -9,6 +9,7 @@
 #include <chrono>
 using namespace std;
 class Heap {
+    float elapsedTime = 0.0f;
 public:
     // comparator for hospital overall rating
     struct RatingComp {
@@ -52,6 +53,9 @@ public:
         // using default to get seconds
         chrono::duration<double> duration = stop - start;
         cout << "Run time: " << duration.count()  << " seconds" << endl;
+    }
+    float getTime() {
+        return elapsedTime;
     }
 };
 class Heapsort {
