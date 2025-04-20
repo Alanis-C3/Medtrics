@@ -51,7 +51,8 @@ public:
         }
         auto stop = chrono::high_resolution_clock::now();
         // using default to get seconds
-        chrono::duration<double> duration = stop - start;
+        chrono::duration<float> duration = stop - start;
+        elapsedTime = duration.count();
         cout << "Run time: " << duration.count()  << " seconds" << endl;
     }
     float getTime() {
