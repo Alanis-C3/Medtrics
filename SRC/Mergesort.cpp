@@ -8,16 +8,25 @@ using namespace std;
 // public function to sort States by merge sort
 vector<pair<string, string>> sData;
 void Merge::stateSort(multimap<string, vector<string>> rawdata, const string& state) {
-  for (const auto& entry : rawdata) {
-    if (entry.second[4] == state) {
-      // key: hospital name & value: state
-      sData.push_back({entry.first, entry.second[4]});
+// data cleaning
+  sData.clear();
+  for (const auto& x : rawdata) {
+    const vector<string>& vals = x.second;
+    if (vals.size() > 8 && vals[2] == state) {
+      string rating = vals[8];
+      // printings N/A if no ratings
+      if (ratPriority.find(rating) == ratPriority.end()) {
+        rating = "N/A";
+      }
+      sData.push_back({x.first, rating});
     }
   }
 }
-// helper function 1
+// helper function 1 where rating priorities are being compared
 void Merge::mergestate(vector<pair<string, string>>& arr, int left, int mid, int right) {
+// defining left size
   int leftS = mid - left + 1;
+  // defining right size
   int rightS = right - mid;
   vector<pair<string, string>> leftArr(leftS), rightArr(rightS);
   for (int i = 0; i < leftS; i++) {
@@ -27,8 +36,13 @@ void Merge::mergestate(vector<pair<string, string>>& arr, int left, int mid, int
     rightArr[i] = arr[mid + 1 + i];
   }
   int leftPtr = 0, rightPtr = 0, mergedPtr = left;
+  // divide & conquer logic
   while (leftPtr < leftS && rightPtr < rightS) {
-    if (leftArr[leftPtr].second <= rightArr[rightPtr].second) {
+    int leftPri = ratPriority.count(leftArr[leftPtr].second)
+        ? ratPriority[leftArr[leftPtr].second] : ratPriority["N/A"];
+    int rightPri = ratPriority.count(rightArr[rightPtr].second)
+        ? ratPriority[rightArr[rightPtr].second] : ratPriority["N/A"];
+    if (leftPri <= rightPri) {
       arr[mergedPtr++] = leftArr[leftPtr++];
     } else {
       arr[mergedPtr++] = rightArr[rightPtr++];
