@@ -6,55 +6,56 @@
 #include <string>
 #include<vector>
 #include<queue>
+#include <chrono>
 using namespace std;
 
 class Heap {
     //float time;
 public:
-    // struct to help with stateSort function
-    struct StateComp {
-        bool operator()(const pair<string, string>& a, const pair<string, string>& b) const {
-            // alphabetical order for states
-            return a.second > b.second;
-        }
-    };
-    void stateSort(multimap<string, vector<string>> rawdata, string state) {
-        priority_queue<pair<string, string>, vector<pair<string, string>>, StateComp> heap;
-        for (const auto& record : rawdata) {
-            if (record.second[4] == state) {
-                // hospital name & state (index is 4)
-                heap.push(make_pair(record.first, record.second[4]));
-            }
-        }
-        while (!heap.empty()) {
-            cout << heap.top().first << " - State: " << heap.top().second << endl;
-            heap.pop();
-        }
-    }
+    // comparator for hospital overall rating
     struct RatingComp {
+        unordered_map<string, int> ratPriority = {
+            {"5", 0},
+            {"4", 1},
+            {"3", 2},
+            {"2", 3},
+            {"1", 4},
+            {"Not Available", 5}
+        };
         bool operator()(const pair<string, string>& a, const pair<string, string>& b) const {
-            // maxHeap to return higher rating
-            return stoi(a.second) < stoi(b.second);
+            // minHeap for higher overall rating
+            return ratPriority.at(a.second) > ratPriority.at(b.second);
         }
     };
-    // struct to help with ratingSort function
-    void ratingSort(multimap<string, vector<string>> rawdata, string rating) {
+    void stateSort(multimap<string, vector<string>> rawdata, const string& state) {
+        auto start = chrono::high_resolution_clock::now();
+        // minHeap to have the best ratings returned first
         priority_queue<pair<string, string>, vector<pair<string, string>>, RatingComp> heap;
-        for (const auto& record : rawdata) {
-            if (!record.second[10].empty() && record.second[10] == rating) {
-                // hospital name and rating (index is 10)
-                heap.push(make_pair(record.first, record.second[10]));
+        for (const auto& x : rawdata) {
+            const vector<string>& key = x.second;
+            // index of state is 4
+            if (key[6] == state) {
+                // index of hospital name is 1
+                string hospitalName = key[3];
+                // index of hospital overall rating is 11
+                string rating = key[12];
+                heap.push(make_pair(hospitalName, rating));
             }
         }
+        cout << "Hospitals in state " << state << " sorted by overall rating:\n";
         while (!heap.empty()) {
             cout << heap.top().first << " - Rating: " << heap.top().second << endl;
             heap.pop();
         }
+        auto stop = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+        cout << "Run time: " << duration.count() / 1e6 << " seconds" << endl;
     }
 };
 class Heapsort {
     map<string, string> cities;
     // Custom comparator for the timeliness (Timeliness of care national comparison)
+    float elapsedTime = 0.0f;
 public:
     struct CustomCompare {
         unordered_map<string, int> priority = {

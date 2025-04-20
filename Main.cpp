@@ -120,10 +120,21 @@ int main(){
       string sorting;
       cin >> sorting;
       if (sorting == "heap") {
-       cout << "--";
-      }
-      else if (sorting == "merge") {
-        cout << "--";
+        Heap h;
+        h.stateSort(data, state);
+        cout << "would you like to compare runtime with merge sort? yes/no" << endl;
+        string compare;
+        cin >> compare;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // gets rid of new line after cin
+        if (compare == "yes") {
+          Merge m;
+          m.stateSort(data, state);
+          m.mergesortChrono();
+        } else if (sorting == "merge") {
+          Merge m;
+          m.stateSort(data, state);
+          m.mergesortChrono();
+        }
       }
     }
     else if (area == "2"){
