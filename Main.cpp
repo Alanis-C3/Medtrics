@@ -130,13 +130,40 @@ int main(){
           Merge m;
           m.stateSort(data, state);
           m.mergesortChrono();
-        } else if (sorting == "merge") {
+          cout << "heap sort took " << h.getTime() << " seconds and merge sort took " << m.getTime() << endl;
+          if (h.getTime() < m.getTime()) {
+            cout << "heap had faster run time performance" << endl;
+          }
+          else {
+            cout << "merge had faster run time performance" << endl;
+          }
+        }
+        else {
+          continue;
+        }
+      } else if (sorting == "merge") {
           Merge m;
           m.stateSort(data, state);
           m.mergesortChrono();
+          cout << "would you like to compare runtime with heap sort? yes/no" << endl;
+          string compare;
+          cin >> compare;
+          cin.ignore(numeric_limits<streamsize>::max(), '\n'); // gets rid of new line after cin
+          if (compare == "yes") {
+            Heap h;
+            h.stateSort(data, state);
+            cout << "heap sort took " << h.getTime() << " seconds and merge sort took " << m.getTime() << endl;
+            if (h.getTime() < m.getTime()) {
+              cout << "heap had faster run time performance" << endl;
+            }
+            else {
+              cout << "merge had faster run time performance" << endl;
+            }
+          } else {
+            continue;
+          }
         }
       }
-    }
     else if (area == "2"){
       cout << "Enter the city you wish to check:" << endl;
       string city;

@@ -19,15 +19,22 @@ class Merge {
     float elapsedTime = 0.0f;
     void mergesortstates(vector<pair<string, string>>& arr, int left, int right);
     void mergestate(vector<pair<string, string>>& arr, int left, int mid, int right);
-    // recursive helper functions for mergesort (overall rating)
-    void mergesortRate(vector<pair<string, vector<string>>> & hos, int start, int end);
-    void mergeRate(vector<pair<string, vector<string>>> & hos, int start, int mid, int end);
   public:
+  // using same rating priority logic in heap sort for state
+    unordered_map<string, int> ratPriority = {
+      {"5", 1},
+      {"4", 2},
+      {"3", 3},
+      {"2", 4},
+      {"1", 5},
+      {"Not Available", 6}
+    };
     // merge sort for state
     void stateSort(multimap<string, vector<string>> rawdata, const string& state);
     void mergesortChrono();
-    // merge sort for overall rating
-    void ratingSort(vector<pair<string, vector<string>>> & hos);
+    float getTime() {
+      return elapsedTime;
+    }
 
 };
 

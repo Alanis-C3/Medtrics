@@ -8,9 +8,8 @@
 #include<queue>
 #include <chrono>
 using namespace std;
-
 class Heap {
-    //float time;
+    float elapsedTime = 0.0f;
 public:
     // comparator for hospital overall rating
     struct RatingComp {
@@ -23,8 +22,13 @@ public:
             {"Not Available", 5}
         };
         bool operator()(const pair<string, string>& a, const pair<string, string>& b) const {
-            // minHeap for higher overall rating
-            return ratPriority.at(a.second) > ratPriority.at(b.second);
+            // using find() to find ratings a and b
+            auto itA = ratPriority.find(a.second);
+            auto itB = ratPriority.find(b.second);
+            int pA = (itA != ratPriority.end()) ? itA->second : ratPriority.at("Not Available");
+            int pB = (itB != ratPriority.end()) ? itB->second : ratPriority.at("Not Available");
+            // return higher overall ratings first after finding
+            return pA > pB;
         }
     };
     void stateSort(multimap<string, vector<string>> rawdata, const string& state) {
@@ -34,22 +38,25 @@ public:
         for (const auto& x : rawdata) {
             const vector<string>& key = x.second;
             // index of state is 4
-            if (key[6] == state) {
-                // index of hospital name is 1
-                string hospitalName = key[3];
-                // index of hospital overall rating is 11
-                string rating = key[12];
-                heap.push(make_pair(hospitalName, rating));
+            if (key.size() > 8 && key[2] == state) {
+                // index of hospital overall rating is 8
+                string rating = key[8];
+                heap.push(make_pair(x.first, rating));
             }
         }
-        cout << "Hospitals in state " << state << " sorted by overall rating:\n";
+        cout << "Hospitals in state " << state << " by overall rating:\n";
         while (!heap.empty()) {
             cout << heap.top().first << " - Rating: " << heap.top().second << endl;
             heap.pop();
         }
         auto stop = chrono::high_resolution_clock::now();
-        auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-        cout << "Run time: " << duration.count() / 1e6 << " seconds" << endl;
+        // using default to get seconds
+        chrono::duration<float> duration = stop - start;
+        elapsedTime = duration.count();
+        cout << "Run time: " << duration.count()  << " seconds" << endl;
+    }
+    float getTime() {
+        return elapsedTime;
     }
 };
 class Heapsort {
